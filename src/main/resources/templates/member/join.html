@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org"> <!-- 타임리프 문법 사용 -->
+                                                <!-- HTML 안에 자바 데이터를 표현할 수 있게 해주는 템플릿 엔진 -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,29 +9,38 @@
     <title>join</title>
 </head>
 <body>
-    <form th:action="@{member/join}" method="post" th:object="${memberVO}">
-        <input th:field="*{memberEmail}" placeholder="이메일"/>
+    <form th:action="@{/member/join}" method="post" th:object="${memberVO}">
+        <!-- th:action="@{/member/login}" : 로그인 요청을 보낼 서버 주소 -->
+        <!-- method="post" : POST 방식 전송 -->
+        <!-- th:object = "${memberVO}" : 이 폼은 memberVO객체와 연결되어있다는 뜻 (Spring Controller에서 넘겨준다.) -->
+        <input th:field="*{memberNameEmail}" placeholder="이메일"/>
+        <!-- 타임리프의 th:field는
+            memberVO.getMemberNameEmail() 값을 자동으로 넣고
+            name="memberNameEmail"도 자동 생성해준다.
+            사용자가 입력한 이메일 값이 memberVO.memberNameEmail로 바인딩된다.-->
         <input th:field="*{memberPassword}" placeholder="비밀번호"/>
         <input th:field="*{memberName}" placeholder="이름"/>
         <input th:field="*{memberAddress}" placeholder="주소"/>
-        <input th:field="*{memberPhone}" placeholder="전화"/>
-        <button>가입 완료</button>
+        <input th:field="*{memberPhone}" placeholder="연락처"/>
+        <button type="button">완료</button>
+        <!-- type="submit"이면 폼이 전송된다.
+        하지만 JS에서 .submit()을 따로 호출하고있으므로 button타입도 ㄱㅊ
+         --> form.submit();
+         -->
     </form>
-
 </body>
 <script th:inline="javascript">
 
     const inputs = document.querySelectorAll("input")
-    const button = document.querySelector("button")
+    const button = document.querySelector("button");
     const form = document.querySelector("form")
 
-    button.addEventListener("click", ()=>{
+    button.addEventListener("click", () => {
         for(let input of inputs){
-            if(!input.value) return alert(`${input.name} 필드값을 입력하세요`)
+            if(!input.value) return alert(`${input.name} 값을 입력하세요`) // 비어있는 값이 있으면 alert창 띄우기
         }
-        form.submit()
+        form.submit(); // 모든 값이 입력되었다면 form 전송
     })
 
-
-</script>
+    </script>
 </html>

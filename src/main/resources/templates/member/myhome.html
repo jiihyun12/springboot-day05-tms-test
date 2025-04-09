@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>myhome</title>
+</head>
+<body>
+    <div th:object="${memberVO}">
+        <p><span th:text="*{memberName}"></span></p>
+        <p><span th:text="*{memberNameEmail}"></span></p>
+        <p><span th:text="*{memberAddress}"></span></p>
+        <p><span th:text="*{memberPhone}"></span></p>
+    </div>
+
+    <form th:action="@{/member/logout}">
+        <button type="submit">로그 아웃</button>
+    </form>
+
+    <form th:action="@{/member/update}">
+        <button type="submit">회원 정보 수정</button>
+    </form>
+
+    <form th:action="@{/member/delete}">
+        <button type="submit">회원 탈퇴</button>
+    </form>
+
+</body>
+<script th:inline="javascript">
+
+    const inputs = document.querySelectorAll("input")
+    const button = document.querySelector("button");
+    const form = document.querySelector("form")
+
+    button.addEventListener("click", () => {
+        for(let input of inputs){
+            if(!input.value) return alert(`${input.name} 값을 입력하세요`)
+        }
+        form.submit();
+    })
+
+</script>
+</html>

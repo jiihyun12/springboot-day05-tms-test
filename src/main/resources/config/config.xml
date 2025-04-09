@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0/EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+                               <!-- 마이 바티스 설정 파일이 맞는지 확인-->
 <configuration>
     <settings>
-        <setting name="jdbcTypeForNull" value="NULL" />
+        <setting name="jdbcTypeForNull" value="NULL" /> <!-- sql에서 null값을 처리할 때 어떤 JDBC 타입 으로 처리 할지 지정-->
+                                                     <!-- DB에 null값을 안전하게 전달하자는 설정 -->
+                                                     <!-- 이 값이 없으면 null값 때문에 오류가 발생할 수 있다. -->
     </settings>
 
+<!-- 자바 클래스를 짧은 별칭으로 사용하기 위한 설정 -->
     <typeAliases>
         <typeAlias type="com.app.tms.domain.MemberVO" alias="MemberVO" />
     </typeAliases>

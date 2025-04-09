@@ -1,11 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.app.tms.mapper.MemberMapper">
+<mapper namespace="com.app.tms.mapper.MemberMapper"> <!-- namespace는 java의 interface와 매핑될 이름이다.-->
 
-    <insert id="insert" parameterType="MemberVO">
-        INSERT INTO TBL_MEMBER (ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_ADDRESS, MEMBER_PHONE)
-        VALUES (SEQ_MEMBER.NEXTVAL, #{memberEmail}, #{memberPassword}, #{memberName}, #{memberAddress}, #{memberPhone} )
-    </insert>
+    <!-- insert 쿼리 정의 -->
+    <!-- parameterType은 sql 태그에서 Java에서 전달되는 파라미터의 타입 -->
+    <!-- MemberMapper 인터페이스의 insert(MemberVO memberVO) 메서드가 호출될 때
+         memberVO 객체가 SQL에 전달되면서 #{}내부의 값을 꺼내 쓸 수 있게 된다.-->
+
+<!--  회원가입은 새로운 사용자의 정보를 삽입하는 과정이므로 insert 사용  -->
+   <insert id="insert" parameterType="MemberVO">
+    INSERT INTO TBL_MEMBER_TASK
+    VALUES (SEQ_MEMBER_TASK.NEXTVAL , #{memberNameEmail}, #{memberPassword}, #{memberName}, #{memberAddress}, #{memberPhone})
+   </insert>
+
+<!-- 로그인은 이미 가입한 회원인지 확인하는것이므로 select(정보 조회) -->
+    <select id="select" parameterType="MemberVO" resultType="MemberVO">
+        SELECT ID, MEMBER_NAME_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_ADDRESS, MEMBER_PHONE
+        FROM TBL_MEMBER_TASK
+        WHERE MEMBER_NAME_EMAIL = #{memberNameEmail} AND MEMBER_PASSWORD = #{memberPassword}
+    </select>
+
+    <!-- 회원 정보 조회 -->
+    <select id="selectId" parameterType="Long" resultType="MemberVO">
+        SELECT ID, MEMBER_NAME_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_ADDRESS, MEMBER_PHONE
+        FROM TBL_MEMBER_TASK
+        WHERE ID = #{id}
+    </select>
+
+    <!-- 회원 수정은 기존의 정보를 변경하므로 update -->
+    <update id="update" parameterType="MemberVO">
+        UPDATE TBL_MEMBER_TASK
+        SET MEMBER_PASSWORD = #{memberPassword}, MEMBER_NAME = #{memberName}, MEMBER_ADDRESS = #{memberAddress}, MEMBER_PHONE = #{memberPhone}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 회원 탈퇴는 회원 정보를 삭제하므로 delete -->
+    <delete id="delete" parameterType="Long">
+        DELETE
+        FROM TBL_MEMBER_TASK
+        WHERE ID=#{id}
+    </delete>
 
 </mapper>
 
